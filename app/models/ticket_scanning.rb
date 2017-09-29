@@ -1,4 +1,6 @@
-class TicketScanning < ActiveRecord::Base
+# frozen_string_literal: true
+
+class TicketScanning < ApplicationRecord
   belongs_to :physical_ticket
 
   before_create :mark_user_present

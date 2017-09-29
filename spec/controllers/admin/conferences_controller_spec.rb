@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::ConferencesController do
@@ -16,22 +18,22 @@ describe Admin::ConferencesController do
     describe 'PATCH #update' do
       context 'valid attributes' do
         it 'locates the requested conference' do
-          patch :update, id: conference.short_title, conference: attributes_for(:conference, title: 'Example Con')
+          patch :update, params: { id: conference.short_title, conference: attributes_for(:conference, title: 'Example Con') }
           expect(assigns(:conference)).to eq(conference)
         end
 
         it 'changes conference attributes' do
-          patch :update, id: conference.short_title, conference:
+          patch :update, params: { id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: 'ExCon')
+                                          short_title: 'ExCon') }
           conference.reload
           expect(conference.title).to eq('Example Con')
           expect(conference.short_title).to eq('ExCon')
         end
 
         it 'redirects to the updated conference' do
-          patch :update, id: conference.short_title, conference:
-              attributes_for(:conference, title: 'Example Con')
+          patch :update, params: { id: conference.short_title, conference:
+              attributes_for(:conference, title: 'Example Con') }
           conference.reload
           expect(response).to redirect_to edit_admin_conference_path(
                                               conference.short_title)
@@ -41,7 +43,7 @@ describe Admin::ConferencesController do
           mailer = double
           allow(mailer).to receive(:deliver)
           conference.email_settings = create(:email_settings)
-          patch :update, id: conference.short_title, conference: attributes_for(:conference, start_date: Date.today + 2.days, end_date: Date.today + 4.days)
+          patch :update, params: { id: conference.short_title, conference: attributes_for(:conference, start_date: Date.today + 2.days, end_date: Date.today + 4.days) }
           conference.reload
           allow(Mailbot).to receive(:conference_date_update_mail).and_return(mailer)
         end
@@ -49,9 +51,9 @@ describe Admin::ConferencesController do
 
       context 'invalid attributes' do
         it 'does not change conference attributes' do
-          patch :update, id: conference.short_title, conference:
+          patch :update, params: { id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: nil)
+                                          short_title: nil) }
 
           conference.reload
           expect(flash[:error])
@@ -61,9 +63,9 @@ describe Admin::ConferencesController do
         end
 
         it 're-renders the #show template' do
-          patch :update, id: conference.short_title, conference:
+          patch :update, params: { id: conference.short_title, conference:
               attributes_for(:conference, title: 'Example Con',
-                                          short_title: nil)
+                                          short_title: nil) }
 
           expect(flash[:error])
               .to eq("Updating conference failed. Short title can't be blank.")
@@ -75,24 +77,24 @@ describe Admin::ConferencesController do
 
     describe 'GET #edit' do
       it 'assigns the requested conference to conference' do
-        get :edit, id: conference.short_title
+        get :edit, params: { id: conference.short_title }
         expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
-        get :edit, id: conference.short_title
+        get :edit, params: { id: conference.short_title }
         expect(response).to render_template :edit
       end
     end
 
     describe 'GET #show' do
       it 'assigns the requested conference to conference' do
-        get :show, id: conference.short_title
+        get :show, params: { id: conference.short_title }
         expect(assigns(:conference)).to eq conference
       end
 
       it 'renders the show template' do
-        get :show, id: conference.short_title
+        get :show, params: { id: conference.short_title }
         expect(response).to render_template :show
       end
     end
@@ -142,15 +144,15 @@ describe Admin::ConferencesController do
       context 'with valid attributes' do
         it 'saves the conference to the database' do
           expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: 'dps15', organization_id: organization.id)
+            post :create, params: { conference:
+                attributes_for(:conference, short_title: 'dps15', organization_id: organization.id) }
           end
           expected.to change { Conference.count }.by 1
         end
 
         it 'redirects to conference#show' do
-          post :create, conference:
-              attributes_for(:conference, short_title: 'dps15', organization_id: organization.id)
+          post :create, params: { conference:
+              attributes_for(:conference, short_title: 'dps15', organization_id: organization.id) }
 
           expect(response).to redirect_to admin_conference_path(
                                               assigns[:conference].short_title)
@@ -161,8 +163,8 @@ describe Admin::ConferencesController do
           info_desk_role = Role.find_by(name: 'info_desk', resource: conference)
           volunteers_coordinator_role = Role.find_by(name: 'volunteers_coordinator', resource: conference)
 
-          post :create, conference:
-              attributes_for(:conference, short_title: 'dps15')
+          post :create, params: { conference:
+              attributes_for(:conference, short_title: 'dps15') }
 
           expect(conference.roles.count).to eq 4
 
@@ -173,15 +175,15 @@ describe Admin::ConferencesController do
       context 'with invalid attributes' do
         it 'does not save the conference to the database' do
           expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: nil, organization_id: organization.id)
+            post :create, params: { conference:
+                attributes_for(:conference, short_title: nil, organization_id: organization.id) }
           end
           expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
-          post :create, conference:
-              attributes_for(:conference, short_title: nil, organization_id: organization.id)
+          post :create, params: { conference:
+              attributes_for(:conference, short_title: nil, organization_id: organization.id) }
           expect(response).to be_success
         end
       end
@@ -190,15 +192,15 @@ describe Admin::ConferencesController do
         it 'does not save the conference to the database' do
           conference
           expected = expect do
-            post :create, conference:
-                attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id)
+            post :create, params: { conference:
+                attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id) }
           end
           expected.to_not change { Conference.count }
         end
 
         it 're-renders the new template' do
           conference
-          post :create, conference: attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id)
+          post :create, params: { conference: attributes_for(:conference, short_title: conference.short_title, organization_id: organization.id) }
           expect(response).to be_success
         end
       end
@@ -239,8 +241,8 @@ describe Admin::ConferencesController do
 
     describe 'POST #create' do
       it 'requires organizer privileges' do
-        post :create, conference: attributes_for(:conference,
-                                                 short_title: 'ExCon', organization_id: organization.id)
+        post :create, params: { conference: attributes_for(:conference,
+                                                           short_title: 'ExCon', organization_id: organization.id) }
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)
@@ -261,7 +263,7 @@ describe Admin::ConferencesController do
   shared_examples 'access as participant or guest' do |path, message|
     describe 'GET #show' do
       it 'requires organizer privileges' do
-        get :show, id: conference.short_title
+        get :show, params: { id: conference.short_title }
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)
@@ -281,9 +283,8 @@ describe Admin::ConferencesController do
 
     describe 'PATCH #update' do
       it 'requires organizer privileges' do
-        patch :update, id: conference.short_title,
-                       conference: attributes_for(:conference,
-                                                  short_title: 'ExCon')
+        patch :update, params: { id: conference.short_title, conference: attributes_for(:conference,
+                                                                                        short_title: 'ExCon') }
         expect(response).to redirect_to(send(path))
         if message
           expect(flash[:alert]).to match(/#{message}/)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe SchedulesController do
@@ -11,7 +13,7 @@ describe SchedulesController do
         create(:event_scheduled, program: conference.program)
         create(:event_scheduled, program: conference.program)
 
-        get :show, conference_id: conference.short_title, format: :xml
+        get :show, params: { conference_id: conference.short_title, format: :xml }
       end
 
       it 'assigns variables' do

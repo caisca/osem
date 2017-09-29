@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Api::V1::SpeakersController do
@@ -29,7 +31,7 @@ describe Api::V1::SpeakersController do
     context 'with conference scope' do
       it 'returns all speakers of conference' do
 
-        get :index, conference_id: conference.short_title, format: :json
+        get :index, params: { conference_id: conference.short_title, format: :json }
         json = JSON.parse(response.body)['speakers']
 
         expect(response).to be_success

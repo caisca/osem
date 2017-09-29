@@ -1,4 +1,6 @@
-class Track < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Track < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
 
@@ -79,9 +81,7 @@ class Track < ActiveRecord::Base
     end
   end
 
-  def conference
-    program.conference
-  end
+  delegate :conference, to: :program
 
   ##
   # Checks if the track is self-organized

@@ -1,4 +1,6 @@
-class EventSchedule < ActiveRecord::Base
+# frozen_string_literal: true
+
+class EventSchedule < ApplicationRecord
   belongs_to :schedule
   belongs_to :event
   belongs_to :room

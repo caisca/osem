@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TicketPdf < Prawn::Document
   def initialize(conference, user, physical_ticket, ticket_layout, file_name)
     super(page_layout: ticket_layout, page_size: 'A4', filename: file_name)

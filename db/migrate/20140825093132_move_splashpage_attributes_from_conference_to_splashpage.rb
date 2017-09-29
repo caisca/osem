@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 class MoveSplashpageAttributesFromConferenceToSplashpage < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempRegistrationPeriod < ActiveRecord::Base
+  class TempRegistrationPeriod < ApplicationRecord
     self.table_name = 'registration_periods'
   end
 
-  class TempContact < ActiveRecord::Base
+  class TempContact < ApplicationRecord
     self.table_name = 'contacts'
   end
 
-  class TempVenue < ActiveRecord::Base
+  class TempVenue < ApplicationRecord
     self.table_name = 'venues'
   end
 
-  class TempSplashpage < ActiveRecord::Base
+  class TempSplashpage < ApplicationRecord
     self.table_name = 'splashpages'
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class EventsController < Admin::BaseController
     load_and_authorize_resource :conference, find_by: :short_title
@@ -139,7 +141,7 @@ module Admin
     def vote
       @ratings = @event.votes.includes(:user)
 
-      if (votes = current_user.votes.find_by_event_id(params[:id]))
+      if (votes = current_user.votes.find_by(event_id: params[:id]))
         votes.update_attributes(rating: params[:rating])
       else
         @myvote = @event.votes.build

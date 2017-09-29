@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class SplitTicketPriceInPriceAndCurrency < ActiveRecord::Migration
-  class TempTicket < ActiveRecord::Base
+  class TempTicket < ApplicationRecord
     self.table_name = 'tickets'
   end
 

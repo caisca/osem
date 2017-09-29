@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # cannot delete program if there are events submitted
 
-class Program < ActiveRecord::Base
+class Program < ApplicationRecord
   has_paper_trail on: [:update], ignore: [:updated_at], meta: { conference_id: :conference_id }
 
   belongs_to :conference
@@ -75,7 +77,7 @@ class Program < ActiveRecord::Base
     tracks.self_organized.confirmed.order(start_date: :asc).each do |track|
       event_schedules += track.selected_schedule.event_schedules.order(start_time: :asc) if track.selected_schedule
     end
-    event_schedules.sort_by(&:start_time) if event_schedules
+    event_schedules&.sort_by(&:start_time)
   end
 
   ##
@@ -149,7 +151,7 @@ class Program < ActiveRecord::Base
     # do not notify if the schedule is not public
     return false unless schedule_public
     # do not notify unless the mail content is set up
-    (!conference.email_settings.program_schedule_public_subject.blank? && !conference.email_settings.program_schedule_public_body.blank?)
+    (conference.email_settings.program_schedule_public_subject.present? && conference.email_settings.program_schedule_public_body.present?)
   end
 
   def languages_list
@@ -219,11 +221,11 @@ class Program < ActiveRecord::Base
   # Check if languages string has the right format. Used as validation.
   #
   def check_languages_format
-    return unless languages.present?
+    return if languages.blank?
     # All white spaces are removed to allow languages to be separated by ',' and ', '. The languages string without spaces is saved
     self.languages = languages.delete(' ').downcase
-    errors.add(:languages, 'must be two letters separated by commas') && return unless
-    languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).present?
+    errors.add(:languages, 'must be two letters separated by commas') && return if
+    languages.match(/^$|(\A[a-z][a-z](,[a-z][a-z])*\z)/).blank?
     languages_array = languages.split(',')
     # We check that languages are not repeated
     errors.add(:languages, "can't be repeated") && return unless languages_array.uniq!.nil?

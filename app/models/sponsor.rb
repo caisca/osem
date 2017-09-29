@@ -1,4 +1,6 @@
-class Sponsor < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Sponsor < ApplicationRecord
   belongs_to :sponsorship_level
   belongs_to :conference
 

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MigrateDataPersonToUser < ActiveRecord::Migration
-  class TempPerson < ActiveRecord::Base
+  class TempPerson < ApplicationRecord
     self.table_name = 'people'
   end
 
-  class TempUser < ActiveRecord::Base
+  class TempUser < ApplicationRecord
     self.table_name = 'users'
   end
 

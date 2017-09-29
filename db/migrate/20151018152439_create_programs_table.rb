@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 class CreateProgramsTable < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempCfp < ActiveRecord::Base
+  class TempCfp < ApplicationRecord
     self.table_name = 'cfps'
   end
 
-  class TempCallForPaper < ActiveRecord::Base
+  class TempCallForPaper < ApplicationRecord
     self.table_name = 'call_for_papers'
   end
 
-  class TempProgram < ActiveRecord::Base
+  class TempProgram < ApplicationRecord
     self.table_name = 'programs'
   end
 

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # cannot delete program if there are events submitted
 
-class Cfp < ActiveRecord::Base
+class Cfp < ApplicationRecord
   TYPES = %w(events booths tracks).freeze
 
   has_paper_trail ignore: [:updated_at], meta: { conference_id: :conference_id }
@@ -27,11 +29,11 @@ class Cfp < ActiveRecord::Base
   # * +True+ -> If cfp dates is updated and all other parameters are set
   # * +False+ -> Either cfp date is not updated or one or more parameter is not set
   def notify_on_cfp_date_update?
-    !end_date.blank? && !start_date.blank?\
+    end_date.present? && start_date.present?\
     && (start_date_changed? || end_date_changed?)\
     && program.conference.email_settings.send_on_cfp_dates_updated\
-    && !program.conference.email_settings.cfp_dates_updated_subject.blank?\
-    && !program.conference.email_settings.cfp_dates_updated_body.blank?
+    && program.conference.email_settings.cfp_dates_updated_subject.present?\
+    && program.conference.email_settings.cfp_dates_updated_body.present?
   end
 
   ##

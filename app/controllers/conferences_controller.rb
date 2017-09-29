@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConferencesController < ApplicationController
   protect_from_forgery with: :null_session
   before_action :respond_to_options
@@ -10,7 +12,7 @@ class ConferencesController < ApplicationController
 
   def show
     @conference = if params[:id]
-                    Conference.find_by_short_title(params[:id])
+                    Conference.find_by(short_title: params[:id])
                   else
                     load_conference_by_domain
                   end

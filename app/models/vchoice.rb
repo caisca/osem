@@ -1,4 +1,6 @@
-class Vchoice < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Vchoice < ApplicationRecord
   belongs_to :vday
   belongs_to :vposition
 

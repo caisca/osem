@@ -1,4 +1,6 @@
-class Event < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Event < ApplicationRecord
   include ActiveRecord::Transitions
   include RevisionCount
   has_paper_trail on: [:create, :update], ignore: [:updated_at, :guid, :week], meta: { conference_id: :conference_id }
@@ -153,7 +155,7 @@ class Event < ActiveRecord::Base
     if program.conference.email_settings.send_on_accepted &&
         program.conference.email_settings.accepted_body &&
         program.conference.email_settings.accepted_subject &&
-        !options[:send_mail].blank?
+        options[:send_mail].present?
       Mailbot.acceptance_mail(self).deliver_later
     end
   end
@@ -162,7 +164,7 @@ class Event < ActiveRecord::Base
     if program.conference.email_settings.send_on_rejected &&
         program.conference.email_settings.rejected_body &&
         program.conference.email_settings.rejected_subject &&
-        !options[:send_mail].blank?
+        options[:send_mail].present?
       Mailbot.rejection_mail(self).deliver_later
     end
   end
@@ -218,10 +220,10 @@ class Event < ActiveRecord::Base
     {
       registered: speakers.all? { |speaker| program.conference.user_registered? speaker },
       commercials: commercials.any?,
-      biographies: speakers.all? { |speaker| !speaker.biography.blank? },
-      subtitle: !subtitle.blank?,
-      track: (!track.blank? unless program.tracks.empty?),
-      difficulty_level: !difficulty_level.blank?,
+      biographies: speakers.all? { |speaker| speaker.biography.present? },
+      subtitle: subtitle.present?,
+      track: (track.present? unless program.tracks.empty?),
+      difficulty_level: difficulty_level.present?,
       title: true,
       abstract: true
     }.with_indifferent_access
@@ -257,9 +259,7 @@ class Event < ActiveRecord::Base
     event_schedules.find_by(schedule_id: selected_schedule_id).try(:start_time)
   end
 
-  def conference
-    program.conference
-  end
+  delegate :conference, to: :program
 
   private
 

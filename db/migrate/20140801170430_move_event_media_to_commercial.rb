@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MoveEventMediaToCommercial < ActiveRecord::Migration
-  class TempEvent < ActiveRecord::Base
+  class TempEvent < ApplicationRecord
     self.table_name = 'events'
   end
 
-  class TempCommercial < ActiveRecord::Base
+  class TempCommercial < ApplicationRecord
     self.table_name = 'commercials'
   end
 

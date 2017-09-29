@@ -1,4 +1,6 @@
-class Venue < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Venue < ApplicationRecord
   belongs_to :conference
   has_one :commercial, as: :commercialable, dependent: :destroy
   has_many :rooms, dependent: :destroy
@@ -19,7 +21,7 @@ class Venue < ActiveRecord::Base
 
   def country_name
     name = ISO3166::Country[country]
-    name.name if name
+    name&.name
   end
 
   def location?
@@ -37,7 +39,7 @@ class Venue < ActiveRecord::Base
     # do not notify unless the address changed
     return false unless name_changed? || street_changed? || city_changed? || country_changed?
     # do not notify unless the mail content is set up
-    (!conference.email_settings.venue_updated_subject.blank? && !conference.email_settings.venue_updated_body.blank?)
+    (conference.email_settings.venue_updated_subject.present? && conference.email_settings.venue_updated_body.present?)
   end
 
   # TODO: create a module to be mixed into model to perform same operation

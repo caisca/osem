@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MoveConferenceContactDetailsToContact < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempContact < ActiveRecord::Base
+  class TempContact < ApplicationRecord
     self.table_name = 'contacts'
   end
 

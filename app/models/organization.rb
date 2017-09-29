@@ -1,4 +1,6 @@
-class Organization < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Organization < ApplicationRecord
   resourcify :roles, dependent: :delete_all
 
   has_paper_trail

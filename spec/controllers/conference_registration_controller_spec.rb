@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ConferenceRegistrationsController, type: :controller do
@@ -11,7 +13,7 @@ describe ConferenceRegistrationsController, type: :controller do
     before :each do
       sign_in send(user) if user
       stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
-      get :new, conference_id: conference.short_title
+      get :new, params: { conference_id: conference.short_title }
     end
 
     it 'redirects' do
@@ -27,7 +29,7 @@ describe ConferenceRegistrationsController, type: :controller do
     before :each do
       sign_in send(user) if user
       stub_const('ENV', ENV.to_hash.merge('OSEM_ICHAIN_ENABLED' => ichain))
-      get :new, conference_id: conference.short_title
+      get :new, params: { conference_id: conference.short_title }
     end
 
     it 'user variable exists' do
@@ -229,7 +231,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
       context 'successful request' do
         before do
-          get :show, conference_id: conference.short_title
+          get :show, params: { conference_id: conference.short_title }
         end
 
         it 'assigns variables' do
@@ -248,7 +250,7 @@ describe ConferenceRegistrationsController, type: :controller do
           @purchased_ticket = create(:ticket_purchase, conference: conference,
                                                        user: user,
                                                        ticket: @ticket)
-          get :show, conference_id: conference.short_title
+          get :show, params: { conference_id: conference.short_title }
         end
 
         it 'does not assign price of purchased tickets to total_price and purchased tickets to tickets without payment' do
@@ -258,7 +260,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
       context 'user has not purchased any ticket' do
         before do
-          get :show, conference_id: conference.short_title
+          get :show, params: { conference_id: conference.short_title }
         end
 
         it 'assigns 0 dollars to total_price and empty array to tickets variables' do
@@ -271,7 +273,7 @@ describe ConferenceRegistrationsController, type: :controller do
     describe 'GET #edit' do
       before do
         @registration = create(:registration, conference: conference, user: user)
-        get :edit, conference_id: conference.short_title
+        get :edit, params: { conference_id: conference.short_title }
       end
 
       it 'assigns conference and registration variable' do
@@ -294,8 +296,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
       context 'updates successfully' do
         before do
-          patch :update, registration: attributes_for(:registration, arrival: Date.new(2014, 04, 29)),
-                         conference_id: conference.short_title
+          patch :update, params: { registration: attributes_for(:registration, arrival: Date.new(2014, 04, 29)), conference_id: conference.short_title }
         end
 
         it 'redirects to registration show path' do
@@ -315,8 +316,7 @@ describe ConferenceRegistrationsController, type: :controller do
       context 'update fails' do
         before do
           allow_any_instance_of(Registration).to receive(:update_attributes).and_return(false)
-          patch :update, registration: attributes_for(:registration, arrival: Date.new(2014, 04, 27)),
-                         conference_id: conference.short_title
+          patch :update, params: { registration: attributes_for(:registration, arrival: Date.new(2014, 04, 27)), conference_id: conference.short_title }
         end
 
         it 'renders edit template' do
@@ -341,7 +341,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
       context 'deletes successfully' do
         before(:each, run: true) do
-          delete :destroy, conference_id: conference.short_title
+          delete :destroy, params: { conference_id: conference.short_title }
         end
 
         it 'redirects to root path', run: true do
@@ -354,7 +354,7 @@ describe ConferenceRegistrationsController, type: :controller do
 
         it 'deletes the registration' do
           expect do
-            delete :destroy, conference_id: conference.short_title
+            delete :destroy, params: { conference_id: conference.short_title }
           end.to change{ Registration.count }.from(2).to(1)
         end
       end
@@ -362,7 +362,7 @@ describe ConferenceRegistrationsController, type: :controller do
       context 'delete fails' do
         before do
           allow_any_instance_of(Registration).to receive(:destroy).and_return(false)
-          delete :destroy, conference_id: conference.short_title
+          delete :destroy, params: { conference_id: conference.short_title }
         end
 
         it 'redirects to registration show path' do

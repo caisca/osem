@@ -1,4 +1,6 @@
-class TicketPurchase < ActiveRecord::Base
+# frozen_string_literal: true
+
+class TicketPurchase < ApplicationRecord
   belongs_to :ticket
   belongs_to :user
   belongs_to :conference

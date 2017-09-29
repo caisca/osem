@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin::ProgramsController, type: :controller do
@@ -10,7 +12,7 @@ describe Admin::ProgramsController, type: :controller do
   context 'not logged in user' do
     describe 'GET #show' do
       it 'does not render admin/programs#show' do
-        get :show, conference_id: conference.short_title
+        get :show, params: { conference_id: conference.short_title }
         expect(response).to redirect_to(user_session_path)
       end
     end
@@ -23,7 +25,7 @@ describe Admin::ProgramsController, type: :controller do
 
     describe 'PATCH #update' do
       it 'redirects to admin/programs#index' do
-        patch :update, conference_id: conference.short_title, program: attributes_for(:program)
+        patch :update, params: { conference_id: conference.short_title, program: attributes_for(:program) }
         conference.program.reload
         expect(response).to redirect_to admin_conference_program_path(conference.short_title)
       end

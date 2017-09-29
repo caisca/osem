@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class MoveBannerDescriptionToConference < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempSplashpage < ActiveRecord::Base
+  class TempSplashpage < ApplicationRecord
     self.table_name = 'splashpages'
   end
 

@@ -1,4 +1,6 @@
-class EventCommentMailJob < ActiveJob::Base
+# frozen_string_literal: true
+
+class EventCommentMailJob < ApplicationJob
   queue_as :default
 
   def perform(comment)

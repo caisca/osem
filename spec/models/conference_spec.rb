@@ -1,5 +1,6 @@
 #!/bin/env ruby
 # encoding: utf-8
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe Conference do
@@ -11,9 +12,9 @@ describe Conference do
     it 'updates pending conferences' do
       create(:conference,
              start_date: Date.today - 2.weeks,
-             end_date: Date.today - 1.weeks)
+             end_date: Date.today - 1.week)
 
-      subject.start_date = Date.today + 1.weeks
+      subject.start_date = Date.today + 1.week
       subject.end_date = Date.today + 2.weeks
 
       result = {
@@ -36,7 +37,7 @@ describe Conference do
     it 'does not update past conferences' do
       old_conference = create(:conference,
                               start_date: Date.today - 2.weeks,
-                              end_date: Date.today - 1.weeks)
+                              end_date: Date.today - 1.week)
 
       Conference.write_event_distribution_to_db
       old_conference.reload
@@ -103,7 +104,7 @@ describe Conference do
             canceled: 0,
             rejected: 0
           },
-        DateTime.now.end_of_week - 1.weeks =>
+        DateTime.now.end_of_week - 1.week =>
           {
             confirmed: 3,
             unconfirmed: 4,
@@ -138,7 +139,7 @@ describe Conference do
             canceled: 0,
             rejected: 0
           },
-        DateTime.now.end_of_week - 1.weeks =>
+        DateTime.now.end_of_week - 1.week =>
           {
             confirmed: 3,
             unconfirmed: 4,
@@ -178,7 +179,7 @@ describe Conference do
           confirmed: 1,
           unconfirmed: 2,
         },
-        Date.today.end_of_week - 1.weeks => {
+        Date.today.end_of_week - 1.week => {
           confirmed: 3,
           unconfirmed: 4,
         }
@@ -250,7 +251,7 @@ describe Conference do
           confirmed: 1,
           unconfirmed: 2,
         },
-        Date.today.end_of_week - 1.weeks => {
+        Date.today.end_of_week - 1.week => {
           confirmed: 3,
           unconfirmed: 4,
         }
@@ -738,8 +739,8 @@ describe Conference do
 
   describe '#get_deactive_conferences' do
     it 'returns all conferences without the active conferences' do
-      a = create(:conference,  start_date: Time.now - 3.year, end_date: Time.now - 1080.days)
-      b = create(:conference,  start_date: Time.now - 2.year, end_date: Time.now - 720.days)
+      a = create(:conference,  start_date: Time.now - 3.years, end_date: Time.now - 1080.days)
+      b = create(:conference,  start_date: Time.now - 2.years, end_date: Time.now - 720.days)
       c = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
       result = [a, b, c]
 
@@ -762,7 +763,7 @@ describe Conference do
     end
 
     it 'return no conferences if there are only two conferences and no pending' do
-      a = create(:conference,  start_date: Time.now - 2.year, end_date: Time.now - 720.days)
+      a = create(:conference,  start_date: Time.now - 2.years, end_date: Time.now - 720.days)
       b = create(:conference, start_date: Time.now - 1.year, end_date: Time.now - 360.days)
       expect(Conference.get_conferences_without_active_for_dashboard([a, b])).to match_array([])
     end
@@ -1690,7 +1691,7 @@ describe Conference do
 
   describe '.upcoming' do
     let!(:upcoming_conference) { create(:conference) }
-    let!(:past_conference) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
+    let!(:past_conference) { create(:conference, start_date: Date.current - 1.day, end_date: Date.current - 1.day) }
     subject { Conference.upcoming }
 
     it { is_expected.to eq [upcoming_conference] }
@@ -1698,8 +1699,8 @@ describe Conference do
 
   describe '.past' do
     let!(:upcoming_conference) { create(:conference) }
-    let!(:past_conference1) { create(:conference, start_date: Date.current - 1.days, end_date: Date.current - 1.days) }
-    let!(:past_conference2) { create(:conference, start_date: Date.current - 2.days, end_date: Date.current - 1.days) }
+    let!(:past_conference1) { create(:conference, start_date: Date.current - 1.day, end_date: Date.current - 1.day) }
+    let!(:past_conference2) { create(:conference, start_date: Date.current - 2.days, end_date: Date.current - 1.day) }
     subject { Conference.past }
 
     it { is_expected.to eq [past_conference1, past_conference2] }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SponsorsHelper
   # returns the url to be used for logo on basis of sponsorship level position
   def get_logo(sponsor)

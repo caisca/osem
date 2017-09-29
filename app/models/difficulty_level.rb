@@ -1,4 +1,6 @@
-class DifficultyLevel < ActiveRecord::Base
+# frozen_string_literal: true
+
+class DifficultyLevel < ApplicationRecord
   belongs_to :program
   has_many :events, dependent: :nullify
 

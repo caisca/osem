@@ -1,4 +1,6 @@
-class Qanswer < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Qanswer < ApplicationRecord
   belongs_to :question
   belongs_to :answer, dependent: :delete
 

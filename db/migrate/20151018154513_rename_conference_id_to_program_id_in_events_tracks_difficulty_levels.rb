@@ -1,25 +1,27 @@
+# frozen_string_literal: true
+
 class RenameConferenceIdToProgramIdInEventsTracksDifficultyLevels < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempEvent < ActiveRecord::Base
+  class TempEvent < ApplicationRecord
     self.table_name = 'events'
   end
 
-  class TempEventType < ActiveRecord::Base
+  class TempEventType < ApplicationRecord
     self.table_name = 'event_types'
   end
 
-  class TempTrack < ActiveRecord::Base
+  class TempTrack < ApplicationRecord
     self.table_name = 'tracks'
   end
 
-  class TempDifficultyLevel < ActiveRecord::Base
+  class TempDifficultyLevel < ApplicationRecord
     self.table_name = 'difficulty_levels'
   end
 
-  class TempProgram < ActiveRecord::Base
+  class TempProgram < ApplicationRecord
     self.table_name = 'programs'
   end
 

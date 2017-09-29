@@ -1,4 +1,6 @@
-class Vposition < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Vposition < ApplicationRecord
   belongs_to :conference
 
   has_many :vchoices

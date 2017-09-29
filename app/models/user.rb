@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class IChainRecordNotFound < StandardError
 end
 
 class UserDisabled < StandardError
 end
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   has_many :physical_tickets, through: :ticket_purchases do
     def by_conference(conference)
@@ -93,7 +95,7 @@ class User < ActiveRecord::Base
   def attended_event? event
     event_registration = event.events_registrations.find_by(registration: registrations)
 
-    return false unless event_registration.present?
+    return false if event_registration.blank?
     event_registration.attended
   end
 

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class ChangePersonIdToUserIdInRegistrations < ActiveRecord::Migration
-  class TempPerson < ActiveRecord::Base
+  class TempPerson < ApplicationRecord
     self.table_name = 'people'
   end
 
-  class TempRegistration < ActiveRecord::Base
+  class TempRegistration < ApplicationRecord
     self.table_name = 'registrations'
   end
 

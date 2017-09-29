@@ -1,4 +1,6 @@
-class Commercial < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Commercial < ApplicationRecord
   require 'oembed'
 
   belongs_to :commercialable, polymorphic: true

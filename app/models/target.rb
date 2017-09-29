@@ -1,4 +1,6 @@
-class Target < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Target < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   default_scope { order('due_date ASC') }

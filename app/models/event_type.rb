@@ -1,4 +1,6 @@
-class EventType < ActiveRecord::Base
+# frozen_string_literal: true
+
+class EventType < ApplicationRecord
   belongs_to :program
   has_many :events, dependent: :restrict_with_error
 

@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 class UndoWrongMigration20140801080705AddUsersToEvents < ActiveRecord::Migration
-  class TempEvent < ActiveRecord::Base
+  class TempEvent < ApplicationRecord
     self.table_name = 'events'
   end
 
-  class TempUser < ActiveRecord::Base
+  class TempUser < ApplicationRecord
     self.table_name = 'users'
   end
 
-  class TempEventUser < ActiveRecord::Base
+  class TempEventUser < ApplicationRecord
     self.table_name = 'event_users'
     belongs_to :temp_event
     belongs_to :temp_user
   end
 
-  class Version < ActiveRecord::Base
+  class Version < ApplicationRecord
     self.table_name = 'versions'
   end
 

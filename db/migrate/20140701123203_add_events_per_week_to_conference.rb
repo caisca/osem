@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class AddEventsPerWeekToConference < ActiveRecord::Migration
-  class TempVersion < ActiveRecord::Base
+  class TempVersion < ApplicationRecord
     self.table_name = 'versions'
     serialize :object_changes, HashWithIndifferentAccess
   end
 
-  class TempEvent < ActiveRecord::Base
+  class TempEvent < ApplicationRecord
     self.table_name = 'events'
   end
 
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
     serialize :events_per_week, Hash
   end
@@ -18,9 +20,9 @@ class AddEventsPerWeekToConference < ActiveRecord::Migration
     TempConference.reset_column_information
 
     TempVersion.where(item_type: 'Event').each do |event_version|
-      event = TempEvent.find_by_id(event_version.item_id)
+      event = TempEvent.find_by(id: event_version.item_id)
       if event
-        conference = TempConference.find_by_id(event.conference_id)
+        conference = TempConference.find_by(id: event.conference_id)
         if conference
           week = event_version.created_at.end_of_week
 

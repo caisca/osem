@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UsersHelper
   ##
   # Includes functions related to users
@@ -15,7 +17,7 @@ module UsersHelper
       unless Rails.application.secrets.send(provider_key).blank? || Rails.application.secrets.send(provider_secret).blank?
         providers << provider
       end
-      providers << provider if !ENV["OSEM_#{provider.upcase}_KEY"].blank? && !ENV["OSEM_#{provider.upcase}_SECRET"].blank?
+      providers << provider if ENV["OSEM_#{provider.upcase}_KEY"].present? && ENV["OSEM_#{provider.upcase}_SECRET"].present?
     end
 
     return providers.uniq

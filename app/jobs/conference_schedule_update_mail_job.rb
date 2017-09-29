@@ -1,4 +1,6 @@
-class ConferenceScheduleUpdateMailJob < ActiveJob::Base
+# frozen_string_literal: true
+
+class ConferenceScheduleUpdateMailJob < ApplicationJob
   queue_as :default
 
   def perform(conference)

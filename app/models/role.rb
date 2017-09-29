@@ -1,4 +1,6 @@
-class Role < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Role < ApplicationRecord
   belongs_to :resource, polymorphic: true
   has_many :users_roles
   has_many :users, through: :users_roles

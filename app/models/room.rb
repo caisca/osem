@@ -1,4 +1,6 @@
-class Room < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Room < ApplicationRecord
   include RevisionCount
   belongs_to :venue
   has_many :event_schedules, dependent: :destroy
@@ -12,9 +14,7 @@ class Room < ActiveRecord::Base
 
   validates :size, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
-  def conference
-    venue.conference
-  end
+  delegate :conference, to: :venue
 
   private
 

@@ -1,4 +1,6 @@
-class Payment < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Payment < ApplicationRecord
   has_many :ticket_purchases
   belongs_to :user
   belongs_to :conference

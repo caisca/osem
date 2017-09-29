@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class MigrateDataRemoveColumnIncludeCfpInSplashAddColumnIncludeCfp < ActiveRecord::Migration
-  class TempConference < ActiveRecord::Base
+  class TempConference < ApplicationRecord
     self.table_name = 'conferences'
   end
 
-  class TempCallForPaper < ActiveRecord::Base
+  class TempCallForPaper < ApplicationRecord
     self.table_name = 'call_for_papers'
   end
 
-  class TempSplashpage < ActiveRecord::Base
+  class TempSplashpage < ApplicationRecord
     self.table_name = 'splashpages'
   end
 

@@ -1,4 +1,6 @@
-class Schedule < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Schedule < ApplicationRecord
   belongs_to :program
   belongs_to :track
   has_many :event_schedules, dependent: :destroy
